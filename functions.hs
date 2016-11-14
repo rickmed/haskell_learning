@@ -80,18 +80,28 @@ times4 x = x * 4
 listTimes4 xs = map times4 xs
 
 
--- partial application
+{-
+  Partial Application
+-}
 addTwo :: Int -> Int -> Int
 addTwo x y = x + y
 
 incBy2 = add 2
+multBy2 = (*2)
 
 
--- lambdas
+{-
+  Lambdas
+-}
 multListBy2 = map (\x -> x * 2)
+-- you can use partially applied infix operators
+multListByv2 = map multBy2
 
 
---conditionals
+
+{-
+  Conditionals
+-}
 -- if: use only for binary cases, need to go with else
 doubleEvenNumb y =
   if (mod y 2 /= 0)
@@ -106,3 +116,31 @@ getLevel n =  case n of
 
 
 
+{-
+  Function Application
+-}
+-- a way to avoid parenthesis
+-- to
+withoutAp = sum (filter (> 10) (map (*2) [2..10]))
+-- to
+withAp = sum $ filter (> 10) $ map (*2) [2..10]
+
+
+
+{-
+  Function Composition
+-}
+-- from
+someFunc = map (\xs -> negate (sum (tail xs))) [[1..5],[3..6],[1..7]]
+-- to
+withComp = map (negate . sum . tail) [[1..5],[3..6],[1..7]]
+
+
+{-
+Let: bind variables to functions.
+-}
+oddSquareSum :: Integer
+oddSquareSum =
+    let oddSquares = filter odd $ map (^2) [1..]
+        belowLimit = takeWhile (<10000) oddSquares
+    in  sum belowLimit
